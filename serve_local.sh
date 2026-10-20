@@ -11,8 +11,8 @@ ROOT="$(cd "$(dirname "$0")" && pwd)"
 
 case "$MODE" in
   local)   export BASEURL="" ;;
-  caltech) export BASEURL="/~aam" SITE_URL="${SITE_URL:-https://sites.astro.caltech.edu}" ;;
-  gh)      export BASEURL="/newweb2" SITE_URL="${SITE_URL:-https://ashishmahabal.github.io}" ;;
+  caltech) export BASEURL="/~aam" ;;
+  gh)      export BASEURL="/newweb2" ;;
   *) echo "Unknown mode: $MODE (local | caltech | gh)" >&2; exit 1 ;;
 esac
 

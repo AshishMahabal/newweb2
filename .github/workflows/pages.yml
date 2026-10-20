@@ -32,7 +32,6 @@ jobs:
       - name: Build
         env:
           BASEURL: /newweb2
-          SITE_URL: https://ashishmahabal.github.io
         run: |
           python3 scripts/generate.py
           ./build.sh

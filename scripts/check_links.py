@@ -7,7 +7,8 @@ from urllib.parse import unquote
 
 SITE = Path(__file__).resolve().parent.parent / "site"
 pages = {p: p.read_text() for p in SITE.rglob("*.html")}
-ids = {p: set(re.findall(r'id="([^"]+)"', t)) for p, t in pages.items()}
+# Anchors: id="x", and old-style <a name=x> (quoted or not), which browsers also honour.
+ids = {p: set(re.findall(r'\b(?:id|name)\s*=\s*["\']?([^"\'\s>]+)', t, re.I)) for p, t in pages.items()}
 bad = 0
 for page, text in pages.items():
     for url in re.findall(r'(?:href|src)="([^"]+)"', text):

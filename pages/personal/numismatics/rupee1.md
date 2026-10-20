@@ -1,0 +1,32 @@
+---
+title: "Indian 1 Rupee"
+---
+
+```{=html}
+<p class="back-link"><a href="/personal/">Personal</a> › <a href="/personal/numismatics/">Numismatics</a></p>
+<h1>Indian 1 Rupee</h1>
+<div class="legacy">
+<p><TABLE BORDER=1>
+<TR><TD>mintmark</TD><TD>diamond</TD><TD>circle</TD><TD>blank</TD><TD>star</TD><TD>mexico</TD><TD>design_circle</TD></TR>
+<TR><TD>2005</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD></TR>
+<TR><TD>2004</TD><TD>Y</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD></TR>
+<TR><TD>2003</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD></TR>
+<TR><TD>2002</TD><TD>Y</TD><TD>Y</TD><TD></TD><TD></TD><TD></TD><TD></TD></TR>
+<TR><TD>2001</TD><TD>Y</TD><TD>Y</TD><TD>Y</TD><TD>Y</TD><TD></TD><TD>Y</TD></TR>
+<TR><TD>2000</TD><TD>Y</TD><TD>Y</TD><TD></TD><TD></TD><TD></TD><TD>Y</TD></TR>
+<TR><TD>1999</TD><TD>Y</TD><TD>Y</TD><TD></TD><TD></TD><TD></TD><TD>Y</TD></TR>
+<TR><TD>1998</TD><TD></TD><TD>Y</TD><TD></TD><TD>Y</TD><TD></TD><TD>Y</TD></TR>
+<TR><TD>1997</TD><TD>Y</TD><TD>Y</TD><TD></TD><TD></TD><TD>Y</TD><TD></TD></TR>
+<TR><TD>1996</TD><TD>Y</TD><TD>Y</TD><TD></TD><TD>Y</TD><TD></TD><TD></TD></TR>
+<TR><TD>1995</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD></TR>
+<TR><TD>1994</TD><TD>Y</TD><TD>Y</TD><TD></TD><TD></TD><TD></TD><TD></TD></TR>
+<TR><TD>1993</TD><TD>Y</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD></TR>
+<TR><TD>1992</TD><TD>Y</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD></TR>
+<TR><TD>1991</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD></TR>
+<TR><TD>1990</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD></TR>
+<TR><TD>1985</TD><TD>Y</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD></TR>
+<TR><TD>1984</TD><TD>Y</TD><TD>Y</TD><TD></TD><TD></TD><TD></TD><TD></TD></TR>
+</TABLE></p>
+</div>
+<p class="meta">Last updated on Dec 5, 2019.</p>
+```

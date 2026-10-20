@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Turn data/* and pages/*.md into the Markdown that build.sh renders.
 
-    pages/*.md        copied to _gen/, with <!-- AUTO:NAME --> markers filled in
+    pages/**/*.md     copied to _gen/, with <!-- AUTO:NAME --> markers filled in
     data/projects.yaml  -> _gen/research.md
     data/talks.csv, data/teaching.csv -> _gen/talks.md
     data/ads.json + data/pubs_extra.yaml + data/selected.txt -> _gen/publications.md
@@ -218,6 +218,7 @@ def from_ads(d):
         "text": title + " " + (d.get("abstract") or ""),
         "refereed": "REFEREED" in (d.get("property") or []),
         "preprint": d.get("doctype") == "eprint",
+        "cites": d.get("citation_count") or 0, "first": d.get("mahabal_pos") == 0,
     }
 
 
@@ -228,6 +229,7 @@ def from_extra(e):
         "doi": e.get("doi"), "arxiv": e.get("arxiv"), "bibcode": None, "text": e["title"],
         "tags": e.get("tags", ["other"]), "refereed": not e.get("preprint", False),
         "preprint": e.get("preprint", False), "selected": e.get("selected", False),
+        "cites": 0, "first": e.get("first", False),
     }
 
 
@@ -302,6 +304,12 @@ def pub_html(p):
         links.append(f'<a class="chip" href="https://arxiv.org/abs/{escape(p["arxiv"])}">arXiv</a>')
     if p["doi"] and p["bibcode"]:
         links.append(f'<a class="chip" href="https://doi.org/{escape(p["doi"])}">DOI</a>')
+    if p["bibcode"]:
+        links.append(f'<a class="chip" href="https://ui.adsabs.harvard.edu/abs/'
+                     f'{escape(p["bibcode"])}/exportcitation">BibTeX</a>')
+    if p["cites"]:
+        links.append(f'<a class="chip chip-cites" href="https://ui.adsabs.harvard.edu/abs/'
+                     f'{escape(p["bibcode"])}/citations">cited {p["cites"]}</a>')
     badges = ' <span class="badge">preprint</span>' if p["preprint"] else ""
     meta = " · ".join(x for x in (escape(p["venue"]), str(p["year"])) if x)
     if links:
@@ -310,9 +318,50 @@ def pub_html(p):
     return (f'{title}{badges}{authors}<br><span class="meta">{meta}</span>')
 
 
+def h_index(cites):
+    cites = sorted(cites, reverse=True)
+    return sum(1 for i, c in enumerate(cites, 1) if c >= i)
+
+
+def stats_html(pubs):
+    tiles = [(len(pubs), "papers"), (sum(p["refereed"] for p in pubs), "refereed"),
+             (sum(p["first"] for p in pubs), "first author"),
+             (f'{sum(p["cites"] for p in pubs):,}', "citations (ADS)"),
+             (h_index(p["cites"] for p in pubs), "h-index (ADS)")]
+    return ('<div class="stats">' + "".join(
+        f'<div class="stat"><span class="stat-num">{n}</span><span class="stat-label">{l}</span></div>'
+        for n, l in tiles) + "</div>")
+
+
+def year_chart_html(pubs):
+    """Papers per year as bars; each bar is a button that filters the list (list.js).
+    Heights here are for all papers; list.js recomputes them under the other filters."""
+    per = Counter(p["year"] for p in pubs)
+    ref = Counter(p["year"] for p in pubs if p["refereed"])
+    years = list(range(min(per), max(per) + 1))
+    peak = max(per.values())
+    peak_year = max(years, key=lambda y: (per[y], y))
+    bars, axis = [], []
+    for i, y in enumerate(years, 1):
+        n = per[y]
+        bars.append(f'<button type="button" class="ybar" data-year="{y}" style="--h:{100 * n / peak:.1f}%" '
+                    f'aria-label="{y}: {n} papers, {ref[y]} refereed" aria-pressed="false">'
+                    f'<span class="ybar-fill"></span></button>')
+        # Every fifth year, plus the ends unless a fifth-year label is too close.
+        if y % 5 == 0 or (y in (years[0], years[-1]) and min(y % 5, 5 - y % 5) > 2):
+            axis.append(f'<span style="grid-column:{i}">{y}</span>')
+    return ('<figure class="ychart">'
+            f'<figcaption class="meta">Papers per year, peak <span class="ychart-peak">{peak} in {peak_year}</span>. '
+            'Click a year to show only that year.</figcaption>'
+            f'<div class="ychart-bars" style="--n:{len(years)}">{"".join(bars)}</div>'
+            f'<div class="ychart-axis" style="--n:{len(years)}">{"".join(axis)}</div>'
+            '<div class="ytip" hidden></div></figure>')
+
+
 def publications_md(pubs, n_ads, projects):
     counts = Counter(t for p in pubs for t in p["tags"])
     n_proj = Counter(pid for p in pubs for pid in p["projects"])
+    per_year = Counter(p["year"] for p in pubs)
     out = ["---", "title: Publications", "---", "", "# Publications", "",
            "Astronomy papers come from "
            "[NASA ADS](https://ui.adsabs.harvard.edu/search/q=author%3A%22Mahabal%2C%20A%22&sort=date%20desc%2C%20bibcode%20desc); "
@@ -320,30 +369,40 @@ def publications_md(pubs, n_ads, projects):
            "[Google Scholar](https://scholar.google.com/citations?user=Ww9DSqAAAAAJ).", ""]
     if not n_ads:
         out += ["<!-- data/ads.json missing: run scripts/fetch_ads.py -->", ""]
+    out.append(raw(stats_html(pubs)))
     sel = [p for p in pubs if p.get("selected")]
     if sel:
         out += ["## Selected", ""]
         out.append(raw('<ul class="plain-list">\n' +
                        "\n".join(f"<li>{pub_html(p)}</li>" for p in sel) + "\n</ul>"))
     out += ["## All {#all}", ""]
-    opts = "".join(f'<option value="{t}">{TAG_NAMES[t]} ({counts[t]})</option>'
-                   for t in TAG_NAMES if counts[t])
+    chips = "".join(f'<button type="button" class="tchip" data-tag="{t}" aria-pressed="false">'
+                    f'{TAG_NAMES[t]} <span class="tchip-n">{counts[t]}</span></button>'
+                    for t in TAG_NAMES if counts[t])
     controls = (
         '<div class="list-controls" hidden>'
-        f'<label class="lc-field">Topic <select class="lc-tag"><option value="">All</option>{opts}</select></label>'
+        f'<div class="lc-row lc-chips">{chips}</div>'
+        '<div class="lc-row">'
         '<label class="lc-field">Project <select class="lc-proj"><option value="">All</option>'
         + "".join(f'<option value="{pr["id"]}">{escape(pr["title"])} ({n_proj[pr["id"]]})</option>'
                   for pr in projects["projects"] if n_proj[pr["id"]]) + '</select></label>'
-        '<label class="lc-field"><input type="checkbox" class="lc-ref"> Refereed only</label>'
-        '<label class="lc-field"><input type="search" class="lc-q" placeholder="Search titles, authors"></label>'
-        '<span class="lc-count"></span></div>')
-    html, year = [controls, '<ul class="work-list">'], None
+        '<label class="lc-field">Sort <select class="lc-sort"><option value="new">Newest</option>'
+        '<option value="cited">Most cited</option></select></label>'
+        '<label class="lc-field"><input type="checkbox" class="lc-ref"> Refereed</label>'
+        '<label class="lc-field"><input type="checkbox" class="lc-first"> First author</label>'
+        '</div><div class="lc-row">'
+        '<label class="lc-field lc-grow"><input type="search" class="lc-q" placeholder="Search titles, authors"></label>'
+        '<button type="button" class="btn btn-sm lc-clear" hidden>Clear filters</button>'
+        '<span class="lc-count"></span></div></div>')
+    html, year = [year_chart_html(pubs), controls, '<ul class="work-list">'], None
     for p in pubs:
         if p["year"] != year:
             year = p["year"]
-            html.append(f'<li class="year-head" data-year="{year}">{year}</li>')
+            html.append(f'<li class="year-head" data-year="{year}">{year} '
+                        f'<span class="year-n">{per_year[year]} papers</span></li>')
         html.append(f'<li class="work-row" data-year="{year}" data-tags="{",".join(p["tags"])}" '
-                    f'data-projects="{",".join(p["projects"])}" '
+                    f'data-projects="{",".join(p["projects"])}" data-cites="{p["cites"]}" '
+                    f'data-first="{1 if p["first"] else 0}" '
                     f'data-ref="{1 if p["refereed"] else 0}">{pub_html(p)}</li>')
     html.append("</ul>")
     out.append(raw("\n".join(html)))
@@ -357,16 +416,18 @@ def main():
     GEN.mkdir()
     projects = load_projects()
     auto = {"FOCUS": focus_html(projects), "NEWS": news_html()}
-    for md in PAGES.glob("*.md"):
+    for md in PAGES.rglob("*.md"):
         text = md.read_text()
         for k, v in auto.items():
             text = text.replace(f"<!-- AUTO:{k} -->", v)
-        (GEN / md.name).write_text(text)
+        out = GEN / md.relative_to(PAGES)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text)
     pubs, n_ads = load_pubs(projects)
     (GEN / "research.md").write_text(research_md(projects, pubs))
     (GEN / "talks.md").write_text(talks_md())
     (GEN / "publications.md").write_text(publications_md(pubs, n_ads, projects))
-    print(f"Wrote {len(list(GEN.glob('*.md')))} pages into {GEN.relative_to(ROOT)}/")
+    print(f"Wrote {len(list(GEN.rglob('*.md')))} pages into {GEN.relative_to(ROOT)}/")
 
 
 if __name__ == "__main__":

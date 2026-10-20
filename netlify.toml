@@ -1,0 +1,7 @@
+# Netlify (ashishmahabal.net): build from this repo, served at the domain root.
+[build]
+  command = "bash scripts/netlify_build.sh"
+  publish = "site"
+
+[build.environment]
+  PYTHON_VERSION = "3.12"

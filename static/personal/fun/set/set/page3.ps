@@ -1,0 +1,119 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: 1 1 640 720
+%%% Ashish Mahabal aam@astro.caltech.edu 2002
+
+
+/inch {45 mul} def	
+/binch {3.1 inch mul} def
+/box {
+newpath	0 inch 0 inch moveto 3 inch 0 inch lineto	
+3 inch 3 inch lineto 0 inch 3 inch lineto closepath	stroke		
+} def
+%%%%%%%%%%%%%%%
+/trianglef {
+newpath 0 inch 0 inch moveto 0.8 inch 0 inch lineto 0.4 inch 0.6 inch lineto
+0 inch 0 inch lineto fill closepath stroke 
+} def
+/trianglec {
+newpath 0 inch 0 inch moveto 0.8 inch 0 inch lineto 0.4 inch 0.6 inch lineto
+0 inch 0 inch lineto closepath stroke crosst
+} def
+/triangleu {
+newpath 0 inch 0 inch moveto 0.8 inch 0 inch lineto 0.4 inch 0.6 inch lineto
+0 inch 0 inch lineto closepath stroke
+} def
+/triangle1 { 1.1 inch 1.1 inch translate triangle } def
+/triangle2 {
+0.4 inch 1.1 inch translate triangle 
+1.4 inch 0 inch translate triangle 
+} def
+/triangle3 {
+0.1 inch 1.1 inch translate triangle 
+1.0 inch 0 inch translate triangle 
+1.0 inch 0 inch translate triangle 
+} def
+/squareu {
+newpath 0 inch 0 inch moveto 0.8 inch 0 inch lineto 0.8 inch 0.8 inch lineto 0 inch 0.8 inch lineto 0 inch 0 inch lineto closepath stroke
+} def
+/squaref {
+newpath 0 inch 0 inch moveto 0.8 inch 0 inch lineto 0.8 inch 0.8 inch lineto 0 inch 0.8 inch lineto 0 inch 0 inch lineto fill closepath stroke
+} def
+/squarec {
+newpath 0 inch 0 inch moveto 0.8 inch 0 inch lineto 0.8 inch 0.8 inch lineto 0 inch 0.8 inch lineto 0 inch 0 inch lineto closepath stroke crosss 
+} def
+/circlec { newpath 0 inch 0 inch 0.4 inch 0 360 arc closepath stroke crossc} def
+/circleu { newpath 0 inch 0 inch 0.4 inch 0 360 arc closepath stroke} def
+/circlef { newpath 0 inch 0 inch 0.4 inch 0 360 arc fill closepath stroke} def
+%/circle {0 inch 0 inch 0.4 inch 0 360 arc cross } def
+/circle1 {1.5 inch 1.5 inch translate circle } def
+/circle2 {
+	newpath 0.75 inch 1.5 inch translate circle stroke
+	newpath 1.5 inch 0 inch translate circle stroke
+} def
+/circle3 {
+	newpath 0.5 inch 1.5 inch translate circle stroke
+	newpath 1.0 inch 0.0 inch translate circle stroke
+	newpath 1.0 inch 0.0 inch translate circle stroke
+} def
+/red { 1 0 0 setrgbcolor } def
+/blue { 0 0 1 setrgbcolor } def
+/green { 0 1 0 setrgbcolor } def
+/black { 0 0 0 setrgbcolor } def
+%/crosst { 0.5 inch 0.3 inch lineto 0.2 inch 0.3 inch lineto 0.7 inch 0 inch lineto } def
+/circle {
+0 inch 0 inch 0.37 inch 0 360 arc 
+} def
+/square {
+0 inch 0 inch moveto 0.7 inch 0 inch lineto 0.7 inch 0.7 inch lineto 0 inch 0.7 inch lineto 0 inch 0 inch lineto 
+} def
+/triangle {
+0 inch 0 inch moveto 0.6 inch 0 inch lineto 0.3 inch 0.5 inch lineto
+0 inch 0 inch lineto 
+} def
+/crosst { gsave newpath 0.1 inch 0.03 inch translate triangle 0.8 setgray fill closepath stroke grestore } def
+%/crosss { 0.8 inch 0.8 inch lineto 0.8 inch 0.0 inch lineto 0.0 inch 0.8 inch lineto } def
+/crosss { gsave newpath 0.05 inch 0.05 inch translate square 0.8 setgray fill closepath stroke grestore } def
+%/crossc { -0.4 inch 0 inch lineto 0.4 inch 0.0 inch lineto 0 0 lineto 0 inch 0.4 inch lineto  0 inch -0.4 inch lineto 0 0 lineto} def
+/crossc { gsave newpath 0.0 inch 0.0 inch translate circle 0.8 setgray fill closepath stroke grestore } def
+%%%%%%%%%%%%%%%%%%%%
+gsave 0.1 binch 0.15 binch translate 3 setlinewidth box 
+blue 0.4 inch 1.1 inch translate squaref 1.4 inch 0 inch translate squaref black grestore
+gsave 1.1 binch 0.15 binch translate 3 setlinewidth box 
+blue 0.4 inch 1.1 inch translate squarec 1.4 inch 0 inch translate squarec black grestore
+gsave 2.1 binch 0.15 binch translate 3 setlinewidth box 
+blue 0.4 inch 1.1 inch translate triangleu 1.4 inch 0 inch translate triangleu black grestore
+gsave 3.1 binch 0.15 binch translate 3 setlinewidth box 
+blue 0.4 inch 1.1 inch translate trianglef 1.4 inch 0 inch translate trianglef black grestore
+gsave 0.1 binch 1.15 binch translate 3 setlinewidth box 
+blue 0.4 inch 1.1 inch translate trianglec 1.4 inch 0 inch translate trianglec black grestore
+gsave 1.1 binch 1.15 binch translate 3 setlinewidth box 
+green 0.8 inch 1.5 inch translate circleu 1.4 inch 0 inch translate circleu black grestore
+gsave 2.1 binch 1.15 binch translate 3 setlinewidth box 
+green 0.8 inch 1.5 inch translate circlef 1.4 inch 0 inch translate circlef black grestore
+gsave 3.1 binch 1.15 binch translate 3 setlinewidth box 
+green 0.8 inch 1.5 inch translate circlec 1.4 inch 0 inch translate circlec black grestore
+gsave 0.1 binch 2.15 binch translate 3 setlinewidth box 
+green 0.4 inch 1.1 inch translate squareu 1.4 inch 0 inch translate squareu black grestore
+gsave 1.1 binch 2.15 binch translate 3 setlinewidth box 
+green 0.4 inch 1.1 inch translate squaref 1.4 inch 0 inch translate squaref black grestore
+gsave 2.1 binch 2.15 binch translate 3 setlinewidth box 
+green 0.4 inch 1.1 inch translate squarec 1.4 inch 0 inch translate squarec black grestore
+gsave 3.1 binch 2.15 binch translate 3 setlinewidth box 
+green 0.4 inch 1.1 inch translate triangleu 1.4 inch 0 inch translate triangleu black grestore
+gsave 0.1 binch 3.15 binch translate 3 setlinewidth box 
+green 0.4 inch 1.1 inch translate trianglef 1.4 inch 0 inch translate trianglef black grestore
+gsave 1.1 binch 3.15 binch translate 3 setlinewidth box 
+green 0.4 inch 1.1 inch translate trianglec 1.4 inch 0 inch translate trianglec black grestore
+gsave 2.1 binch 3.15 binch translate 3 setlinewidth box 
+red 0.5 inch 1.5 inch translate circleu 1 inch 0 inch translate circleu 1 inch 0 inch translate circleu black grestore
+gsave 3.1 binch 3.15 binch translate 3 setlinewidth box 
+red 0.5 inch 1.5 inch translate circlef 1 inch 0 inch translate circlef 1 inch 0 inch translate circlef black grestore
+gsave 0.1 binch 4.15 binch translate 3 setlinewidth box 
+red 0.5 inch 1.5 inch translate circlec 1 inch 0 inch translate circlec 1 inch 0 inch translate circlec black grestore
+gsave 1.1 binch 4.15 binch translate 3 setlinewidth box 
+red 0.1 inch 1.1 inch translate squareu 1 inch 0 inch translate squareu 1 inch 0 inch translate squareu black grestore
+gsave 2.1 binch 4.15 binch translate 3 setlinewidth box 
+red 0.1 inch 1.1 inch translate squaref 1 inch 0 inch translate squaref 1 inch 0 inch translate squaref black grestore
+gsave 3.1 binch 4.15 binch translate 3 setlinewidth box 
+red 0.1 inch 1.1 inch translate squarec 1 inch 0 inch translate squarec 1 inch 0 inch translate squarec black grestore
+showpage

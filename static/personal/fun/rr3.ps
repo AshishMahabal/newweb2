@@ -1,0 +1,175 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: -10 -10 650 650
+%% Draws a one square inch box and inch in from the bottom left
+
+/inch {64 mul} def   % Convert inches->points (1/72 inch)
+
+/sqf {
+newpath
+/width exch def
+/starty exch def
+/startx exch def
+startx starty moveto
+width 0 rlineto
+0 width rlineto
+width -1 mul 0 rlineto
+fill
+closepath       % Automatically add left side to close path
+stroke
+} bind def
+
+/sq {
+newpath
+/width exch def
+/starty exch def
+/startx exch def
+startx starty moveto
+width 0 rlineto
+0 width rlineto
+width -1 mul 0 rlineto
+closepath       % Automatically add left side to close path
+stroke
+} bind def
+
+/hwall {
+newpath
+/width exch def
+/starty exch def
+/startx exch def
+startx starty moveto
+width 0 rlineto
+closepath
+stroke
+} bind def
+
+/vwall {
+newpath
+/width exch def
+/starty exch def
+/startx exch def
+startx starty moveto
+0 width rlineto
+closepath
+stroke
+} bind def
+
+/red { 1 0 0 setrgbcolor } def
+/blue { 0 0 1 setrgbcolor } def
+/green { 0 1 0 setrgbcolor } def
+/black { 0 0 0 setrgbcolor } def
+/yellow { 1 1 0 setrgbcolor } def
+
+/circle { 0.3 inch 0.4 inch 0.37 inch 0 360 arc } def
+/square {
+0 inch 0 inch moveto 0.7 inch 0 inch lineto 0.7 inch 0.7 inch lineto 0 inch
+0.7 inch lineto 0 inch 0 inch lineto
+} def
+/diamond {
+0.3 inch 0.1 inch moveto 0.6 inch 0.4 inch lineto 0.3 inch 0.7 inch lineto
+0.0 inch 0.4 inch lineto 0.3 inch 0.1 inch lineto
+} def
+/triangle {
+0 inch 0 inch moveto 0.6 inch 0 inch lineto 0.3 inch 0.5 inch lineto
+0 inch 0 inch lineto
+} def
+
+
+
+newpath 1 inch 1 inch 1 inch sq
+newpath 1 inch 2 inch 1 inch sq
+newpath 1 inch 3 inch 1 inch sq
+newpath 1 inch 4 inch 1 inch sq
+newpath 1 inch 5 inch 1 inch sq
+newpath 1 inch 6 inch 1 inch sq
+newpath 1 inch 7 inch 1 inch sq
+newpath 1 inch 8 inch 1 inch sq
+newpath 2 inch 1 inch 1 inch sq
+newpath 2 inch 2 inch 1 inch sq
+newpath 2 inch 3 inch 1 inch sq
+newpath 2 inch 4 inch 1 inch sq
+newpath 2 inch 5 inch 1 inch sq
+newpath 2 inch 6 inch 1 inch sq
+newpath 2 inch 7 inch 1 inch sq
+newpath 2 inch 8 inch 1 inch sq
+newpath 3 inch 1 inch 1 inch sq
+newpath 3 inch 2 inch 1 inch sq
+newpath 3 inch 3 inch 1 inch sq
+newpath 3 inch 4 inch 1 inch sq
+newpath 3 inch 5 inch 1 inch sq
+newpath 3 inch 6 inch 1 inch sq
+newpath 3 inch 7 inch 1 inch sq
+newpath 3 inch 8 inch 1 inch sq
+newpath 4 inch 1 inch 1 inch sq
+newpath 4 inch 2 inch 1 inch sq
+newpath 4 inch 3 inch 1 inch sq
+newpath 4 inch 4 inch 1 inch sq
+newpath 4 inch 5 inch 1 inch sq
+newpath 4 inch 6 inch 1 inch sq
+newpath 4 inch 7 inch 1 inch sq
+newpath 4 inch 8 inch 1 inch sq
+newpath 5 inch 1 inch 1 inch sq
+newpath 5 inch 2 inch 1 inch sq
+newpath 5 inch 3 inch 1 inch sq
+newpath 5 inch 4 inch 1 inch sq
+newpath 5 inch 5 inch 1 inch sq
+newpath 5 inch 6 inch 1 inch sq
+newpath 5 inch 7 inch 1 inch sq
+newpath 5 inch 8 inch 1 inch sq
+newpath 6 inch 1 inch 1 inch sq
+newpath 6 inch 2 inch 1 inch sq
+newpath 6 inch 3 inch 1 inch sq
+newpath 6 inch 4 inch 1 inch sq
+newpath 6 inch 5 inch 1 inch sq
+newpath 6 inch 6 inch 1 inch sq
+newpath 6 inch 7 inch 1 inch sq
+newpath 6 inch 8 inch 1 inch sq
+newpath 7 inch 1 inch 1 inch sq
+newpath 7 inch 2 inch 1 inch sq
+newpath 7 inch 3 inch 1 inch sq
+newpath 7 inch 4 inch 1 inch sq
+newpath 7 inch 5 inch 1 inch sq
+newpath 7 inch 6 inch 1 inch sq
+newpath 7 inch 7 inch 1 inch sq
+newpath 7 inch 8 inch 1 inch sq
+newpath 8 inch 1 inch 1 inch sq
+newpath 8 inch 2 inch 1 inch sq
+newpath 8 inch 3 inch 1 inch sq
+newpath 8 inch 4 inch 1 inch sq
+newpath 8 inch 5 inch 1 inch sq
+newpath 8 inch 6 inch 1 inch sq
+newpath 8 inch 7 inch 1 inch sq
+newpath 8 inch 8 inch 1 inch sq
+newpath 1 inch 0.9 inch 8 inch hwall stroke
+newpath 1 inch 1.1 inch 8 inch hwall stroke
+newpath 0.9 inch 1 inch 8 inch vwall stroke
+newpath 1.1 inch 1 inch 8 inch vwall stroke
+newpath 8 inch 7.9 inch 1 inch hwall stroke
+newpath 8 inch 8.1 inch 1 inch hwall stroke
+newpath 7.9 inch 8 inch 1 inch vwall stroke
+newpath 8.1 inch 8 inch 1 inch vwall stroke
+newpath 1 inch 5.9 inch 1 inch hwall stroke
+newpath 1 inch 6.1 inch 1 inch hwall stroke
+newpath 2 inch 7.9 inch 1 inch hwall stroke
+newpath 2 inch 8.1 inch 1 inch hwall stroke
+newpath 3 inch 1.9 inch 1 inch hwall stroke
+newpath 3 inch 2.1 inch 1 inch hwall stroke
+newpath 6 inch 7.9 inch 1 inch hwall stroke
+newpath 6 inch 8.1 inch 1 inch hwall stroke
+newpath 7 inch 3.9 inch 1 inch hwall stroke
+newpath 7 inch 4.1 inch 1 inch hwall stroke
+newpath 2.9 inch 2 inch 1 inch vwall stroke
+newpath 3.1 inch 2 inch 1 inch vwall stroke
+newpath 6.9 inch 1 inch 1 inch vwall stroke
+newpath 7.1 inch 1 inch 1 inch vwall stroke
+newpath 7.9 inch 4 inch 1 inch vwall stroke
+newpath 8.1 inch 4 inch 1 inch vwall stroke
+newpath 2.9 inch 7 inch 1 inch vwall stroke
+newpath 3.1 inch 7 inch 1 inch vwall stroke
+newpath 5.9 inch 7 inch 1 inch vwall stroke
+newpath 6.1 inch 7 inch 1 inch vwall stroke
+gsave 3.2 inch 2.2 inch translate yellow square fill closepath stroke black grestore
+gsave 2.2 inch 7.2 inch translate green circle fill closepath stroke black grestore
+gsave 6.2 inch 7.2 inch translate red triangle fill closepath stroke black grestore
+gsave 7.2 inch 4.2 inch translate blue diamond fill closepath stroke black grestore
+gsave blue 6 inch 5 inch 1 inch sqf black grestore
+showpage
