@@ -12,17 +12,21 @@
   <meta property="og:title" content="$if(active_index)$$else$$pagetitle$ · $endif$Ashish Mahabal" />
   <meta property="og:url" content="$og_url$" />
   <link rel="stylesheet" href="$baseurl$/assets/style.css" />
+  <!-- Apply a saved light/dark choice before first paint, so there is no flash. -->
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <script src="$baseurl$/assets/theme.js" defer></script>
   <script src="$baseurl$/assets/list.js" defer></script>
 </head>
 <body>
 <nav>
-  <a class="navlink $if(active_index)$nav-active$endif$" href="$baseurl$/">Home</a>
+  <a class="navlink $if(active_index)$nav-active$endif$" href="$baseurl$/">aschig's Universe</a>
   <a class="navlink $if(active_research)$nav-active$endif$" href="$baseurl$/research/">Research</a>
   <a class="navlink $if(active_publications)$nav-active$endif$" href="$baseurl$/publications/">Publications</a>
   <a class="navlink $if(active_talks)$nav-active$endif$" href="$baseurl$/talks/">Talks &amp; Teaching</a>
   <a class="navlink $if(active_personal)$nav-active$endif$" href="$baseurl$/personal/">Personal</a>
   <a class="navlink" href="https://ashishmahabal.github.io/writings/">Writings</a>
   <a class="navlink" href="$baseurl$/#contact">Contact</a>
+  <button class="theme-toggle" type="button" hidden aria-label="Colour theme"></button>
 </nav>
 <hr />
 <main>

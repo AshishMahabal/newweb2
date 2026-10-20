@@ -20,7 +20,7 @@ OUT = ROOT / "data" / "ads.json"
 QUERY = 'author:("Mahabal, A" OR "Mahabal, Ashish") year:1990-2100'
 FIELDS = ["bibcode", "title", "author", "author_count", "year", "pubdate", "pub",
           "volume", "page", "doi", "identifier", "property", "doctype",
-          "citation_count"]
+          "citation_count", "abstract"]   # abstract: only for matching papers to projects
 ROWS = 200
 
 

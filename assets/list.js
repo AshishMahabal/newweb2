@@ -1,4 +1,5 @@
-/* Filter the publications list in place (topic, refereed, text search).
+/* Filter the publications list in place (topic, project, refereed, text search).
+ * ?project=ztf in the URL (the "Papers" buttons on Research) preselects a project.
  *
  * Without JavaScript the page is still the full list, newest first; the
  * controls stay hidden until this runs, so they are never dead.
@@ -11,6 +12,7 @@
   var rows = Array.prototype.slice.call(list.querySelectorAll(".work-row"));
   var heads = Array.prototype.slice.call(list.querySelectorAll(".year-head"));
   var tagSel = controls.querySelector(".lc-tag");
+  var projSel = controls.querySelector(".lc-proj");
   var refBox = controls.querySelector(".lc-ref");
   var query = controls.querySelector(".lc-q");
   var count = controls.querySelector(".lc-count");
@@ -20,6 +22,8 @@
   function matches(row) {
     var tag = tagSel.value;
     if (tag && (row.dataset.tags || "").split(",").indexOf(tag) === -1) return false;
+    var proj = projSel.value;
+    if (proj && (row.dataset.projects || "").split(",").indexOf(proj) === -1) return false;
     if (refBox.checked && row.dataset.ref !== "1") return false;
     var words = query.value.toLowerCase().split(/\s+/).filter(Boolean);
     return words.every(function (w) { return row.__text.indexOf(w) !== -1; });
@@ -39,8 +43,12 @@
   }
 
   tagSel.addEventListener("change", render);
+  projSel.addEventListener("change", render);
   refBox.addEventListener("change", render);
   query.addEventListener("input", render);
+
+  var want = new URLSearchParams(location.search).get("project");
+  if (want && projSel.querySelector('option[value="' + want + '"]')) projSel.value = want;
 
   controls.hidden = false;
   render();

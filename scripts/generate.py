@@ -51,13 +51,17 @@ def load_projects():
     return yaml.safe_load((DATA / "projects.yaml").read_text())
 
 
-def project_html(p):
+def project_html(p, n_papers=0):
     years = str(p.get("years") or "")
     years = f"since {years[:-1]}" if years.endswith("-") else years.replace("-", "–")
     meta = [years, p.get("role") or ""]
     meta = " · ".join(m for m in meta if m)
-    links = " ".join(f'<a class="btn btn-sm" href="{escape(u)}">{escape(t)}</a>'
-                     for t, u in p.get("links", []))
+    links = [f'<a class="btn btn-sm" href="{escape(u)}">{escape(t)}</a>'
+             for t, u in p.get("links", [])]
+    if n_papers:
+        links.append(f'<a class="btn btn-sm" href="/publications/?project={p["id"]}#all">'
+                     f'Papers ({n_papers})</a>')
+    links = " ".join(links)
     out = [f'<section class="project theme-{p["theme"]}" id="{p["id"]}">',
            f'<h3>{escape(p["title"])}</h3>']
     if meta:
@@ -69,7 +73,7 @@ def project_html(p):
     return "\n".join(out)
 
 
-def research_md(d):
+def research_md(d, pubs):
     """Current projects under their themes, then "Dormant", then "Earlier work" (past)."""
     status = lambda p: p.get("status") or "current"
     current = [p for p in d["projects"] if status(p) == "current"]
@@ -78,16 +82,20 @@ def research_md(d):
     extra = [e for e in extra if e[2]]
     themes = [t for t in d["themes"] if any(p["theme"] == t["id"] for p in current)]
     out = ["---", "title: Research", "---", "", "# Research", ""]
-    out += [" · ".join(f"[{t['title']}](#{t['id']})" for t in themes), ""]
+    n = Counter(pid for p in pubs for pid in p["projects"])
+    html = lambda ps: raw("\n".join(project_html(p, n[p["id"]]) for p in ps))
+    out.append(raw('<p class="buttons">' + " ".join(
+        f'<a class="btn theme-btn theme-{t["id"]}" href="#{t["id"]}">{escape(t["short"])}</a>'
+        for t in themes) + "</p>"))
     if extra:
         out.append(raw('<p class="buttons">' + " ".join(
             f'<a class="btn btn-sm" href="#{s}">{title}</a>' for s, title, _ in extra) + "</p>"))
     for t in themes:
         out += [f"## {t['title']} {{#{t['id']}}}", "", t["blurb"].strip(), ""]
-        out.append(raw("\n".join(project_html(p) for p in current if p["theme"] == t["id"])))
+        out.append(html([p for p in current if p["theme"] == t["id"]]))
     for s, title, ps in extra:
         out += [f"## {title} {{#{s}}}", ""]
-        out.append(raw("\n".join(project_html(p) for p in ps)))
+        out.append(html(ps))
     return "\n".join(out)
 
 
@@ -149,7 +157,9 @@ def talks_md():
 # --- Publications ---------------------------------------------------------
 
 KEEP_DOCTYPES = {"article", "eprint", "inproceedings", "inbook", "book",
-                 "phdthesis", "techreport", "software"}
+                 "phdthesis", "techreport", "software", "proceedings"}
+# ADS name search also finds other Mahabals.
+NOT_ME = re.compile(r"Mahabal, (Abhijit|Anil)\b")
 ML_RE = re.compile(r"machine.learn|deep.learn|neural|classif|\bAI\b|artificial intel|"
                    r"data.scien|data.driven|informatics|broker|anomal|bayesian|"
                    r"autoencoder|transformer|statistic|big data", re.I)
@@ -169,7 +179,9 @@ def short_name(a):
 def authors_html(authors, count, pos):
     names = [short_name(a) for a in authors]
     show = names[:3]
-    if pos is not None and pos >= 3:
+    if count <= 5 and len(names) >= count:   # short list: show everyone
+        show = names
+    elif pos is not None and pos >= 3:
         show = names[:1] + ["…", "A. A. Mahabal"]
     out = [f"<b>{escape(n)}</b>" if n.lower().endswith("mahabal") else escape(n) for n in show]
     s = ", ".join(out)
@@ -186,7 +198,7 @@ def arxiv_id(ids):
 
 
 def from_ads(d):
-    title = (d.get("title") or ["(untitled)"])[0]
+    title = (d.get("title") or ["PhD thesis" if d.get("doctype") == "phdthesis" else "(untitled)"])[0]
     tags = ["astro"]
     if ML_RE.search(title):
         tags.append("ml")
@@ -203,6 +215,7 @@ def from_ads(d):
         "authors": authors_html(d.get("author", []), d.get("author_count", 0), d.get("mahabal_pos")),
         "doi": (d.get("doi") or [None])[0], "arxiv": arxiv_id(d.get("identifier")),
         "bibcode": d["bibcode"], "tags": tags,
+        "text": title + " " + (d.get("abstract") or ""),
         "refereed": "REFEREED" in (d.get("property") or []),
         "preprint": d.get("doctype") == "eprint",
     }
@@ -212,23 +225,55 @@ def from_extra(e):
     return {
         "year": int(e["year"]), "date": str(e["year"]), "title": e["title"],
         "venue": e.get("venue", ""), "authors": escape(e.get("authors", "")),
-        "doi": e.get("doi"), "arxiv": e.get("arxiv"), "bibcode": None,
+        "doi": e.get("doi"), "arxiv": e.get("arxiv"), "bibcode": None, "text": e["title"],
         "tags": e.get("tags", ["other"]), "refereed": not e.get("preprint", False),
         "preprint": e.get("preprint", False), "selected": e.get("selected", False),
     }
 
 
-def load_pubs():
+def mahabal_name(d):
+    """The Mahabal author string, or "" when it sits past the authors kept in ads.json."""
+    pos = d.get("mahabal_pos")
+    return d["author"][pos] if pos is not None and pos < len(d["author"]) else ""
+
+
+def title_key(p):
+    return re.sub(r"\W+", "", p["title"].lower())
+
+
+def dedupe(pubs):
+    """ADS sometimes keeps the arXiv preprint and the published paper as separate
+    records. Keep the published one, carrying over the arXiv id."""
+    best = {}
+    for p in pubs:
+        k = title_key(p)
+        q = best.get(k)
+        if q is None:
+            best[k] = p
+            continue
+        keep, drop = (q, p) if p["preprint"] else (p, q)
+        keep["arxiv"] = keep["arxiv"] or drop["arxiv"]
+        keep["text"] = max(keep["text"], drop["text"], key=len)
+        best[k] = keep
+    return list(best.values())
+
+
+def load_pubs(projects):
     ads_file = DATA / "ads.json"
     ads = json.loads(ads_file.read_text()) if ads_file.exists() else []
-    pubs = [from_ads(d) for d in ads if d.get("doctype") in KEEP_DOCTYPES]
+    pubs = dedupe([from_ads(d) for d in ads if d.get("doctype") in KEEP_DOCTYPES
+                   and not NOT_ME.match(mahabal_name(d))])
     by_doi = {p["doi"].lower(): p for p in pubs if p["doi"]}
+    by_title = {title_key(p): p for p in pubs}
     for e in yaml.safe_load((DATA / "pubs_extra.yaml").read_text()) or []:
         x = from_extra(e)
-        hit = by_doi.get(str(x["doi"]).lower())
-        if hit:   # ADS has it: keep ADS metadata, take the curated tags/flags
+        hit = by_doi.get(str(x["doi"]).lower()) or by_title.get(title_key(x))
+        if hit and hit["doi"]:   # ADS has it: keep ADS metadata, take the curated tags/flags
             hit["tags"] = x["tags"]
             hit["selected"] = x["selected"]
+        elif hit:   # same title but no DOI in ADS (e.g. a meeting abstract): curated wins
+            x["text"] = max(x["text"], hit["text"], key=len)
+            pubs[pubs.index(hit)] = x
         else:
             pubs.append(x)
     sel_file = DATA / "selected.txt"
@@ -239,6 +284,10 @@ def load_pubs():
     for p in pubs:
         if (p["bibcode"] or "").lower() in keys or (p["doi"] or "").lower() in keys:
             p["selected"] = True
+    pats = [(pr["id"], re.compile(pr["papers"], re.I)) for pr in projects["projects"]
+            if pr.get("papers")]
+    for p in pubs:
+        p["projects"] = [pid for pid, rx in pats if rx.search(p["text"])]
     pubs.sort(key=lambda p: p["date"], reverse=True)
     return pubs, len(ads)
 
@@ -261,9 +310,9 @@ def pub_html(p):
     return (f'{title}{badges}{authors}<br><span class="meta">{meta}</span>')
 
 
-def publications_md():
-    pubs, n_ads = load_pubs()
+def publications_md(pubs, n_ads, projects):
     counts = Counter(t for p in pubs for t in p["tags"])
+    n_proj = Counter(pid for p in pubs for pid in p["projects"])
     out = ["---", "title: Publications", "---", "", "# Publications", "",
            "Astronomy papers come from "
            "[NASA ADS](https://ui.adsabs.harvard.edu/search/q=author%3A%22Mahabal%2C%20A%22&sort=date%20desc%2C%20bibcode%20desc); "
@@ -276,12 +325,15 @@ def publications_md():
         out += ["## Selected", ""]
         out.append(raw('<ul class="plain-list">\n' +
                        "\n".join(f"<li>{pub_html(p)}</li>" for p in sel) + "\n</ul>"))
-    out += ["## All", ""]
+    out += ["## All {#all}", ""]
     opts = "".join(f'<option value="{t}">{TAG_NAMES[t]} ({counts[t]})</option>'
                    for t in TAG_NAMES if counts[t])
     controls = (
         '<div class="list-controls" hidden>'
         f'<label class="lc-field">Topic <select class="lc-tag"><option value="">All</option>{opts}</select></label>'
+        '<label class="lc-field">Project <select class="lc-proj"><option value="">All</option>'
+        + "".join(f'<option value="{pr["id"]}">{escape(pr["title"])} ({n_proj[pr["id"]]})</option>'
+                  for pr in projects["projects"] if n_proj[pr["id"]]) + '</select></label>'
         '<label class="lc-field"><input type="checkbox" class="lc-ref"> Refereed only</label>'
         '<label class="lc-field"><input type="search" class="lc-q" placeholder="Search titles, authors"></label>'
         '<span class="lc-count"></span></div>')
@@ -291,6 +343,7 @@ def publications_md():
             year = p["year"]
             html.append(f'<li class="year-head" data-year="{year}">{year}</li>')
         html.append(f'<li class="work-row" data-year="{year}" data-tags="{",".join(p["tags"])}" '
+                    f'data-projects="{",".join(p["projects"])}" '
                     f'data-ref="{1 if p["refereed"] else 0}">{pub_html(p)}</li>')
     html.append("</ul>")
     out.append(raw("\n".join(html)))
@@ -309,9 +362,10 @@ def main():
         for k, v in auto.items():
             text = text.replace(f"<!-- AUTO:{k} -->", v)
         (GEN / md.name).write_text(text)
-    (GEN / "research.md").write_text(research_md(projects))
+    pubs, n_ads = load_pubs(projects)
+    (GEN / "research.md").write_text(research_md(projects, pubs))
     (GEN / "talks.md").write_text(talks_md())
-    (GEN / "publications.md").write_text(publications_md())
+    (GEN / "publications.md").write_text(publications_md(pubs, n_ads, projects))
     print(f"Wrote {len(list(GEN.glob('*.md')))} pages into {GEN.relative_to(ROOT)}/")
 
 

@@ -14,6 +14,7 @@ for page, text in pages.items():
         if re.match(r"[a-z]+:", url) or url.startswith("//"):
             continue
         path, _, frag = unquote(url).partition("#")
+        path = path.split("?")[0]
         target = page if not path else (SITE / path.lstrip("/") if path.startswith("/")
                                         else page.parent / path)
         if target.is_dir():
