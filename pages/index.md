@@ -18,6 +18,13 @@ knowledge bases, and on predicting fungal contaminants for space missions.
 
 PhD in Astronomy, IUCAA, Pune (1998).
 
+::: buttons
+[Research](/research/){.btn .btn-primary}
+[Publications](/publications/){.btn}
+[Talks & Teaching](/talks/){.btn}
+[Contact](#contact){.btn}
+:::
+
 ## Current focus
 
 <!-- AUTO:FOCUS -->
@@ -28,11 +35,13 @@ PhD in Astronomy, IUCAA, Pune (1998).
 
 ## Elsewhere
 
-[Google Scholar](https://scholar.google.com/citations?user=Ww9DSqAAAAAJ) ·
-[NASA ADS](https://ui.adsabs.harvard.edu/search/q=author%3A%22Mahabal%2C%20A%22&sort=date%20desc%2C%20bibcode%20desc) ·
-[arXiv](https://arxiv.org/search/?query=Mahabal%2C+A&searchtype=author&order=-announced_date_first) ·
-[GitHub](https://github.com/AshishMahabal) ·
-[Writings](https://ashishmahabal.github.io/writings/)
+::: buttons
+[Google Scholar](https://scholar.google.com/citations?user=Ww9DSqAAAAAJ){.btn .btn-sm}
+[NASA ADS](https://ui.adsabs.harvard.edu/search/q=author%3A%22Mahabal%2C%20A%22&sort=date%20desc%2C%20bibcode%20desc){.btn .btn-sm}
+[arXiv](https://arxiv.org/search/?query=Mahabal%2C+A&searchtype=author&order=-announced_date_first){.btn .btn-sm}
+[GitHub](https://github.com/AshishMahabal){.btn .btn-sm}
+[Writings](https://ashishmahabal.github.io/writings/){.btn .btn-sm}
+:::
 
 ## Contact {#contact}
 

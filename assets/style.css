@@ -7,6 +7,12 @@
   --rule:   #c8c8c3;
   --card:   #f0efeb;
   --accent: #1f5f8b;
+  --on-accent: #ffffff;
+  /* One hue per research theme: cards, project rules. */
+  --t-surveys: #2a6fb0;
+  --t-methods: #7a4fb5;
+  --t-life:    #2f8a5b;
+  --t-infra:   #b0662a;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,6 +23,11 @@
     --rule:   #3b3934;
     --card:   #22211d;
     --accent: #8cc4ea;
+    --on-accent: #10202c;
+    --t-surveys: #6aaee8;
+    --t-methods: #b294e6;
+    --t-life:    #6cc89a;
+    --t-infra:   #e3a26a;
   }
 }
 
@@ -57,6 +68,7 @@ nav a.navlink.nav-active {
   margin: 1rem 0;
 }
 .card {
+  --t: var(--accent);
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
@@ -66,8 +78,10 @@ nav a.navlink.nav-active {
   color: var(--ink);
   text-decoration: none;
   line-height: 1.35;
+  border-top: 3px solid var(--t);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-.card:hover { outline: 1px solid var(--rule); }
+.card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.15); }
 .card-title { font-weight: 650; }
 .card-role { color: var(--muted); font-size: 0.85em; }
 
@@ -75,12 +89,42 @@ nav a.navlink.nav-active {
 .news li { margin: 0.4rem 0; }
 .when { color: var(--muted); font-size: 0.9em; margin-right: 0.4rem; white-space: nowrap; }
 
+/* --- Buttons and chips ---------------------------------------------------- */
+.buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
+.btn {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-weight: 550;
+  text-decoration: none;
+  line-height: 1.3;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.btn:hover, .btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-primary:hover { filter: brightness(1.12); }
+.btn-sm { padding: 0.2rem 0.75rem; font-size: 0.88em; }
+
+.chip {
+  display: inline-block;
+  padding: 0 0.5rem;
+  border-radius: 6px;
+  background: var(--card);
+  font-size: 0.85em;
+  text-decoration: none;
+}
+.chip:hover { text-decoration: underline; }
+
 /* --- Research ------------------------------------------------------------ */
-.project { margin: 1.4rem 0; }
+.project { margin: 1.4rem 0; padding-left: 0.9rem; border-left: 3px solid var(--t, var(--rule)); }
+.theme-surveys { --t: var(--t-surveys); }
+.theme-methods { --t: var(--t-methods); }
+.theme-life    { --t: var(--t-life); }
+.theme-infra   { --t: var(--t-infra); }
 .project h3 { margin-bottom: 0.2rem; }
 .project .meta { margin: 0 0 0.4rem; }
 .project p { margin: 0.4rem 0; }
-.project-links { font-size: 0.95em; }
 
 .badge {
   display: inline-block;

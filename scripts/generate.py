@@ -56,14 +56,15 @@ def project_html(p):
     years = f"since {years[:-1]}" if years.endswith("-") else years.replace("-", "–")
     meta = [years, p.get("role") or ""]
     meta = " · ".join(m for m in meta if m)
-    links = " · ".join(f'<a href="{escape(u)}">{escape(t)}</a>' for t, u in p.get("links", []))
-    out = [f'<section class="project" id="{p["id"]}">',
+    links = " ".join(f'<a class="btn btn-sm" href="{escape(u)}">{escape(t)}</a>'
+                     for t, u in p.get("links", []))
+    out = [f'<section class="project theme-{p["theme"]}" id="{p["id"]}">',
            f'<h3>{escape(p["title"])}</h3>']
     if meta:
         out.append(f'<p class="meta">{escape(meta)}</p>')
     out.append(f'<p>{escape(p["blurb"].strip())}</p>')
     if links:
-        out.append(f'<p class="project-links">{links}</p>')
+        out.append(f'<p class="buttons">{links}</p>')
     out.append("</section>")
     return "\n".join(out)
 
@@ -77,9 +78,10 @@ def research_md(d):
     extra = [e for e in extra if e[2]]
     themes = [t for t in d["themes"] if any(p["theme"] == t["id"] for p in current)]
     out = ["---", "title: Research", "---", "", "# Research", ""]
-    toc = [f"[{t['title']}](#{t['id']})" for t in themes]
-    toc += [f"[{title}](#{s})" for s, title, _ in extra]
-    out += [" · ".join(toc), ""]
+    out += [" · ".join(f"[{t['title']}](#{t['id']})" for t in themes), ""]
+    if extra:
+        out.append(raw('<p class="buttons">' + " ".join(
+            f'<a class="btn btn-sm" href="#{s}">{title}</a>' for s, title, _ in extra) + "</p>"))
     for t in themes:
         out += [f"## {t['title']} {{#{t['id']}}}", "", t["blurb"].strip(), ""]
         out.append(raw("\n".join(project_html(p) for p in current if p["theme"] == t["id"])))
@@ -95,7 +97,7 @@ def focus_html(d):
     for pid in d.get("focus", []):
         p = by_id[pid]
         role = f'<span class="card-role">{escape(p["role"])}</span>' if p.get("role") else ""
-        cards.append(f'<a class="card" href="/research/#{pid}">'
+        cards.append(f'<a class="card theme-{p["theme"]}" href="/research/#{pid}">'
                      f'<span class="card-title">{escape(p["title"])}</span>{role}</a>')
     return raw('<div class="cards">\n' + "\n".join(cards) + "\n</div>")
 
@@ -248,9 +250,9 @@ def pub_html(p):
     title = f'<a class="pub-title" href="{escape(url)}">{title}</a>' if url else title
     links = []
     if p["arxiv"]:
-        links.append(f'<a href="https://arxiv.org/abs/{escape(p["arxiv"])}">arXiv</a>')
+        links.append(f'<a class="chip" href="https://arxiv.org/abs/{escape(p["arxiv"])}">arXiv</a>')
     if p["doi"] and p["bibcode"]:
-        links.append(f'<a href="https://doi.org/{escape(p["doi"])}">DOI</a>')
+        links.append(f'<a class="chip" href="https://doi.org/{escape(p["doi"])}">DOI</a>')
     badges = ' <span class="badge">preprint</span>' if p["preprint"] else ""
     meta = " · ".join(x for x in (escape(p["venue"]), str(p["year"])) if x)
     if links:
