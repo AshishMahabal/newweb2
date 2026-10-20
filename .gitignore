@@ -1,0 +1,11 @@
+reference
+site
+__pycache__
+.DS_Store
+.env
+COMMANDS.md
+NOTES.md
+PLAN.md
+PROMPTS.md
+notes
+reference
