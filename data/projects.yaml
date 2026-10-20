@@ -1,0 +1,224 @@
+# Research page source. Themes appear in this order; projects within a theme
+# in the order listed. status: current | dormant | past
+# Lines marked CONFIRM are drafts from public sources, to be checked by Ashish.
+
+# Shown as cards under "Current focus" on the home page, in this order.
+focus: [roman, ztf, edrn, biomarkers, fungi, gwskynet]
+
+themes:
+  - id: surveys
+    title: Time-domain astronomy and sky surveys
+    blurb: >
+      Large surveys that image the sky night after night, and the machine
+      learning that turns their alert streams into classified, followable events.
+  - id: methods
+    title: AI/ML methods and measurement
+    blurb: >
+      Methods that are not tied to one data set: interpretable deep learning,
+      classification under sparse and uneven sampling, and how to measure what
+      a model is doing.
+  - id: life
+    title: Methodology transfer to the life sciences
+    blurb: >
+      The same problems show up in medicine and biology: few labels, noisy
+      measurements, data spread over many sites. Tools from astronomy carry over.
+  - id: infra
+    title: Data infrastructure
+    blurb: >
+      Systems for working with distributed and sensitive data without moving it.
+
+projects:
+  - id: roman
+    theme: surveys
+    title: Nancy Grace Roman Space Telescope (RAPID)
+    years: 2024-        # CONFIRM start year
+    status: current
+    role: Machine learning lead, RAPID team   # CONFIRM
+    blurb: >
+      RAPID is the Caltech-IPAC pipeline that will find time-variable sources in
+      Roman data. I lead the machine learning effort.
+    confirm: "blurb (CONFIRM, expand)"
+    links:
+      - [Roman (NASA), https://roman.gsfc.nasa.gov/]
+
+  - id: ztf
+    theme: surveys
+    title: Zwicky Transient Facility (ZTF)
+    years: 2016-
+    status: current
+    role: Machine learning lead
+    blurb: >
+      ZTF is a time-domain survey with a 47 square degree field of view, on the
+      Samuel Oschin 48-inch Schmidt telescope at Palomar Observatory. I lead the
+      machine learning for the survey: separating real sources from bogus ones,
+      finding streaking asteroids, and sorting variables and transients into
+      their classes. Classical methods for small data sets, deep learning when
+      labels are plentiful.
+    links:
+      - [ZTF, https://www.ztf.caltech.edu/]
+
+  - id: lsst
+    theme: surveys
+    title: Vera C. Rubin Observatory / LSST
+    years: 2010-
+    status: current
+    role: Former co-chair, Transient and Variable Stars Science Collaboration
+    blurb: >
+      Rubin's Legacy Survey of Space and Time is a ten-year survey from an 8.4 m
+      telescope in Chile, about a thousand visits per field in six filters. I was
+      a co-chair of the Transient and Variable Stars Science Collaboration for a
+      few years and am part of the Informatics and Statistics collaboration.
+    links:
+      - [Rubin Observatory, https://rubinobservatory.org/]
+
+  - id: alerce
+    theme: surveys
+    title: ALeRCE alert broker
+    years: 2018-
+    status: current
+    role: Collaborator
+    blurb: >
+      ALeRCE (Automatic Learning for the Rapid Classification of Events) is a
+      Chile-led broker that classifies alerts, trained on the ZTF stream and built
+      for Rubin. I contributed labeled data from CRTS and ZTF and take part in the
+      classification work, including teaching at the La Serena School for Data
+      Science.
+    links:
+      - [ALeRCE, https://alerce.science/]
+
+  - id: crts
+    theme: surveys
+    title: Catalina Real-time Transient Survey (CRTS)
+    years: 2007-2018    # CONFIRM
+    status: past
+    role: Classification and infrastructure
+    blurb: >
+      CRTS used the Catalina Sky Survey asteroid-search data to find rare
+      transients and variables over thirty thousand square degrees. I worked on
+      transient classification and built parts of the early infrastructure.
+    links:
+      - [CRTS, http://crts.caltech.edu/]
+
+  - id: robopol
+    theme: surveys
+    title: RoboPol
+    years: 2013-2017    # CONFIRM
+    status: past
+    role: Collaborator
+    blurb: >
+      RoboPol is a four-channel optical photopolarimeter on the 1.3 m telescope
+      at Skinakas Observatory, Crete. It measures linear polarization in a single
+      exposure. Its main program monitored more than a hundred gamma-ray bright
+      blazars to test models of jet structure and magnetic fields. Partners:
+      Caltech, MPIfR Bonn, Nicolaus Copernicus University, IUCAA, University of Crete.
+    links:
+      - [RoboPol, http://robopol.org/]
+
+  - id: gwskynet
+    theme: methods
+    title: Explainable AI for gravitational-wave alerts (GWSkyNet)
+    years: 2021-        # CONFIRM
+    status: current
+    role: Collaborator
+    blurb: >
+      GWSkyNet and GWSkyNet-Multi classify LIGO-Virgo-KAGRA alerts within
+      minutes. The focus is on understanding what the networks have learned.
+    confirm: "blurb (CONFIRM, expand)"
+
+  - id: nist
+    theme: methods
+    title: NIST
+    years: ""           # CONFIRM
+    status: current
+    role: ""            # CONFIRM
+    blurb: >
+      Text to come.
+
+  - id: frb
+    theme: methods
+    title: Fast radio burst morphology
+    years: 2023
+    status: dormant
+    role: Collaborator
+    blurb: >
+      Deep learning to classify fast radio bursts by the shape of their dynamic
+      spectra.
+    confirm: "blurb (CONFIRM)"
+
+  - id: fungi
+    theme: life
+    title: Fungal contaminants on space missions
+    years: 2025-        # CONFIRM
+    status: current
+    role: ""            # CONFIRM
+    blurb: >
+      Predicting which fungi could contaminate spacecraft, by screening whole
+      proteomes for orthologs of proteins linked to survival in harsh
+      conditions. Preprint on bioRxiv, 2026.
+    confirm: "blurb (CONFIRM, expand)"
+    links:
+      - [Preprint, https://doi.org/10.64898/2026.08.22.746478]
+
+  - id: edrn
+    theme: life
+    title: Early Detection Research Network (EDRN)
+    years: 2011-        # CONFIRM
+    status: current
+    role: Data science, with the JPL team
+    blurb: >
+      EDRN is a National Cancer Institute network of tens of institutions that
+      moves cancer biomarker research toward clinical use. With the Data Science
+      group at JPL I work on machine learning for early detection and on building
+      the data sets it needs. Domain experts stay in the loop, but once the data
+      are abstracted, methods from astronomy apply with little change.
+    links:
+      - [EDRN, https://edrn.nci.nih.gov/]
+      - [Profile, https://edrn.nci.nih.gov/about-edrn/sites/128-nasa-jet-propulsion-laboratory/mahabal-ashish]
+
+  - id: biomarkers
+    theme: life
+    title: Biomarker knowledge bases (BiomarkerKB, CFDE)
+    years: 2024-        # CONFIRM
+    status: current
+    role: ""            # CONFIRM
+    blurb: >
+      BiomarkerKB brings biomarker data from many sources into one knowledge base
+      that can be explored by biomarker. It is part of the NIH Common Fund Data
+      Ecosystem (CFDE).
+    confirm: "blurb (CONFIRM, expand)"
+
+  - id: mcl
+    theme: life
+    title: Molecular and Cellular Characterization of Screen-Detected Lesions (MCL)
+    years: 2016-        # CONFIRM
+    status: past        # CONFIRM
+    role: Machine learning and data sets
+    blurb: >
+      MCL teams study tumor tissue, cells and microenvironment to tell
+      screen-detected early lesions apart from interval and symptom-detected
+      cancers. The work overlaps with EDRN. Our virtual reality view of tumor data
+      was shown at SIGGRAPH 2019.
+
+  - id: tremor
+    theme: life
+    title: Tremor classification from hand-drawn spirals
+    years: 2025
+    status: past
+    role: Collaborator
+    blurb: >
+      A deep learning classifier for tremor types from spirals drawn by patients
+      (Movement Disorders, 2025).
+    links:
+      - [Paper, https://doi.org/10.1002/mds.30176]
+
+  - id: vifi
+    theme: infra
+    title: VIFI (NSF DIBBs)
+    years: 2016-2021    # CONFIRM
+    status: past
+    role: Collaborator
+    blurb: >
+      A Virtual Information-Fabric Infrastructure for analysing distributed,
+      fragmented data sets without moving them and without exposing sensitive raw
+      data. Analyses run where the data live, in secure containers, with search
+      and metadata built on persistent identifiers.

@@ -1,0 +1,34 @@
+# Papers to show in addition to ADS (data/ads.json). Merged by DOI, so an entry
+# that ADS also has is shown once, with these tags.
+# Seeded from notes/nonastro_candidates.md ("Likely yours"); NOT YET CONFIRMED.
+# tags: astro | ml | bio | other   (any mix)
+# selected: true  -> also listed under "Selected" at the top of the page
+# preprint: true  -> "preprint" badge
+
+- {year: 2026, title: "Predicting Fungal Contaminants for Space Missions Using Proteome-Wide Screening for Protein Orthologs", venue: bioRxiv, doi: 10.64898/2026.08.22.746478, tags: [bio, ml], preprint: true, selected: true}
+- {year: 2026, title: "BiomarkerKB: An Integrated Knowledgebase Supporting Biomarker-Centric Exploration of Biomedical Data", venue: bioRxiv, doi: 10.64898/2026.01.26.701395, tags: [bio], preprint: true, selected: true}
+- {year: 2026, title: "The Common Fund Data Ecosystem (CFDE)", venue: bioRxiv, doi: 10.64898/2026.04.10.717672, tags: [bio], preprint: true}
+- {year: 2025, title: "Deep Learning-Based AI Algorithm to Classify Tremors from Hand-Drawn Spirals", venue: Movement Disorders, doi: 10.1002/mds.30176, tags: [bio, ml], selected: true}
+- {year: 2025, title: "Prof. Narlikar's Contributions to Marathi Literature", venue: Resonance, doi: 10.1007/s12045-025-1831-0, tags: [other]}
+- {year: 2024, title: "Enhancing Scientific Understanding through Explainable AI: GWSkyNet and GWSkyNet-Multi", venue: ESS Open Archive, doi: 10.22541/essoar.173013629.94573413/v1, tags: [astro, ml], preprint: true}
+- {year: 2023, title: "Automated morphological classification of Fast Radio Bursts using Deep Learning", venue: URSI GASS 2023, doi: 10.46620/ursigass.2023.3080.ungd3095, tags: [astro, ml]}
+- {year: 2022, title: "From space to biomedicine: Enabling biomarker data science in the cloud", venue: Cancer Biomarkers, doi: 10.3233/cbm-210350, tags: [bio]}
+- {year: 2021, title: "Vascularity and Dynamic Contrast-Enhanced Breast MRI", venue: Frontiers in Radiology, doi: 10.3389/fradi.2021.735567, tags: [bio]}
+- {year: 2021, title: "Spatiotemporal strategies to identify aggressive biology in precancerous breast biopsies", venue: "WIREs Mechanisms of Disease", doi: 10.1002/wsbm.1506, tags: [bio]}
+- {year: 2020, title: "Cancer Biomarkers and Big Data: A Planetary Science Approach", venue: Cancer Cell, doi: 10.1016/j.ccell.2020.09.006, tags: [bio, ml], selected: true}
+- {year: 2020, title: "New methods to assess and improve LIGO detector duty cycle", venue: Classical and Quantum Gravity, doi: 10.1088/1361-6382/ab8650, tags: [astro, ml]}
+- {year: 2019, title: "OVS+Tumor", venue: SIGGRAPH 2019 VR/AR, doi: 10.1145/3306449.3328825, tags: [bio]}
+- {year: 2019, title: "Multi-View, Generative, Transfer Learning for Distributed Time Series Classification", venue: IEEE BigData 2019, doi: 10.1109/bigdata47090.2019.9005452, tags: [ml]}
+- {year: 2019, title: "View-Adaptive Weighted Deep Transfer Learning for Distributed Time-Series Classification", venue: IEEE COMPSAC 2019, doi: 10.1109/compsac.2019.00061, tags: [ml]}
+- {year: 2019, title: "Bigger Buffer k-d Trees on Multi-Many-Core Systems", venue: LNCS, doi: 10.1007/978-3-030-15996-2_15, tags: [ml]}
+- {year: 2018, title: "Context-Aware Deep Sequence Learning with Multi-View Factor Pooling", venue: IEEE BigData 2018, doi: 10.1109/bigdata.2018.8622253, tags: [ml]}
+- {year: 2018, title: "Summarizing performance for genome scale measurement of miRNA: reference samples and metrics", venue: BMC Genomics, doi: 10.1186/s12864-018-4496-1, tags: [bio]}
+- {year: 2017, title: "The EDRN knowledge environment", venue: SPIE, doi: 10.1117/12.2263842, tags: [bio]}
+- {year: 2017, title: "Massively-parallel best subset selection for OLS regression", venue: IEEE SSCI 2017, doi: 10.1109/ssci.2017.8285225, tags: [ml]}
+- {year: 2016, title: "Modeling lightcurves for improved classification of astronomical objects", venue: Statistical Analysis and Data Mining, doi: 10.1002/sam.11305, tags: [astro, ml]}
+- {year: 2015, title: "Skysurveys, Light Curves and Statistical Challenges", venue: International Statistical Review, doi: 10.1111/insr.12118, tags: [astro, ml]}
+- {year: 2015, title: "From stars to patients: Lessons from space science and astrophysics for health care informatics", venue: IEEE BigData 2015, doi: 10.1109/bigdata.2015.7364135, tags: [bio, ml]}
+- {year: 2014, title: "Ten simple rules for the care and feeding of scientific data", venue: PLoS Computational Biology, doi: 10.1371/journal.pcbi.1003542, tags: [other]}
+- {year: 2012, title: "Data challenges of time domain astronomy", venue: Distributed and Parallel Databases, doi: 10.1007/s10619-012-7101-7, tags: [astro, ml]}
+- {year: 2008, title: "Object detection in multi-epoch data", venue: Statistical Methodology, doi: 10.1016/j.stamet.2008.02.003, tags: [astro, ml]}
+- {year: 2007, title: "Using R-based VOStat as a Low-Resolution Spectrum Analysis Tool", venue: Journal of Statistical Software, doi: 10.18637/jss.v018.i11, tags: [astro]}

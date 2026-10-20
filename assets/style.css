@@ -1,0 +1,139 @@
+/* Same palette and type as the writings site, so the two read as one family. */
+:root {
+  color-scheme: light dark;
+  --bg:     #fafaf8;
+  --ink:    #111111;
+  --muted:  #6e6e69;
+  --rule:   #c8c8c3;
+  --card:   #f0efeb;
+  --accent: #1f5f8b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:     #171613;
+    --ink:    #eeece6;
+    --muted:  #a09c93;
+    --rule:   #3b3934;
+    --card:   #22211d;
+    --accent: #8cc4ea;
+  }
+}
+
+body {
+  max-width: 760px;
+  margin: 48px auto;
+  padding: 0 18px;
+  background: var(--bg);
+  color: var(--ink);
+  font: 18px/1.65 system-ui, -apple-system, "Noto Sans Devanagari",
+        "Devanagari Sangam MN", "Kohinoor Devanagari", sans-serif;
+}
+
+h1, h2, h3 { line-height: 1.2; }
+h1 { margin-bottom: 0.2rem; }
+h2 { margin-top: 2.2rem; }
+a { color: var(--accent); text-underline-offset: 3px; }
+hr { border: 0; border-top: 1px solid var(--rule); }
+.meta { color: var(--muted); font-size: 0.92em; }
+h1 + p { color: var(--muted); margin-top: 0; }
+
+/* --- Navigation ---------------------------------------------------------- */
+nav { display: flex; flex-wrap: wrap; gap: 0.2rem 1rem; }
+nav a.navlink { color: var(--ink); opacity: 0.75; text-decoration: none; }
+nav a.navlink:hover { opacity: 1; }
+nav a.navlink.nav-active {
+  opacity: 1;
+  font-weight: 700;
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 2px;
+}
+
+/* --- Home ---------------------------------------------------------------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  text-decoration: none;
+  line-height: 1.35;
+}
+.card:hover { outline: 1px solid var(--rule); }
+.card-title { font-weight: 650; }
+.card-role { color: var(--muted); font-size: 0.85em; }
+
+.news { list-style: none; padding-left: 0; }
+.news li { margin: 0.4rem 0; }
+.when { color: var(--muted); font-size: 0.9em; margin-right: 0.4rem; white-space: nowrap; }
+
+/* --- Research ------------------------------------------------------------ */
+.project { margin: 1.4rem 0; }
+.project h3 { margin-bottom: 0.2rem; }
+.project .meta { margin: 0 0 0.4rem; }
+.project p { margin: 0.4rem 0; }
+.project-links { font-size: 0.95em; }
+
+.badge {
+  display: inline-block;
+  padding: 0.05rem 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.72em;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--muted);
+  margin-left: 0.4rem;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* --- Lists (talks, publications) ---------------------------------------- */
+.plain-list, .work-list { list-style: none; padding-left: 0; margin: 0.5rem 0 1.5rem; }
+.plain-list li, .work-list .work-row { margin: 0.75rem 0; line-height: 1.45; }
+.plain-list .year-head, .work-list .year-head {
+  margin: 1.6rem 0 0.4rem;
+  font-weight: 650;
+  color: var(--muted);
+  border-bottom: 1px solid var(--rule);
+}
+.pub-title { font-weight: 550; text-decoration: none; }
+.pub-title:hover { text-decoration: underline; }
+.pub-authors { font-size: 0.9em; }
+
+.list-controls[hidden] { display: none; }
+.list-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.1rem;
+  margin: 1rem 0 1.25rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.92em;
+}
+.lc-field { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--muted); }
+.lc-field select, .lc-field input[type="search"] {
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.95em;
+}
+.lc-field input[type="search"] { width: 14rem; max-width: 100%; }
+.lc-count { margin-left: auto; color: var(--muted); }
+
+@media (max-width: 600px) {
+  body { margin-top: 24px; font-size: 17px; }
+  .lc-count { margin-left: 0; }
+}

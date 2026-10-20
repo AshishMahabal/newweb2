@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>$if(active_index)$$else$$pagetitle$ · $endif$Ashish Mahabal</title>
+  <meta name="description" content="$if(description)$$description/nowrap$$else$Ashish Mahabal: astronomer and data scientist at Caltech. Time-domain sky surveys, machine learning, and methodology transfer to the life sciences.$endif$" />
+  <meta name="author" content="Ashish Mahabal" />
+  <link rel="canonical" href="$og_url$" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Ashish Mahabal" />
+  <meta property="og:title" content="$if(active_index)$$else$$pagetitle$ · $endif$Ashish Mahabal" />
+  <meta property="og:url" content="$og_url$" />
+  <link rel="stylesheet" href="$baseurl$/assets/style.css" />
+  <script src="$baseurl$/assets/list.js" defer></script>
+</head>
+<body>
+<nav>
+  <a class="navlink $if(active_index)$nav-active$endif$" href="$baseurl$/">Home</a>
+  <a class="navlink $if(active_research)$nav-active$endif$" href="$baseurl$/research/">Research</a>
+  <a class="navlink $if(active_publications)$nav-active$endif$" href="$baseurl$/publications/">Publications</a>
+  <a class="navlink $if(active_talks)$nav-active$endif$" href="$baseurl$/talks/">Talks &amp; Teaching</a>
+  <a class="navlink $if(active_personal)$nav-active$endif$" href="$baseurl$/personal/">Personal</a>
+  <a class="navlink" href="https://ashishmahabal.github.io/writings/">Writings</a>
+  <a class="navlink" href="$baseurl$/#contact">Contact</a>
+</nav>
+<hr />
+<main>
+$body$
+</main>
+<hr />
+<p class="meta">© $year$ Ashish Mahabal</p>
+</body>
+</html>
