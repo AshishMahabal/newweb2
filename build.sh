@@ -52,6 +52,7 @@ render_one() {
     --lua-filter="$FILTER" \
     -M baseurl="$BASEURL_META" \
     -M og_url="$CANONICAL/$rel" \
+    -M site_url="$CANONICAL" \
     -M year="$(date +%Y)" \
     -M "active_$section=1" \
     -o "$out"

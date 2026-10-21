@@ -4,6 +4,8 @@ title: Ashish Mahabal
 
 <!-- CONFIRM: bio text below is drafted from the old site and public sources. -->
 
+<img class="portrait" src="/images/ashish-400.jpg" alt="Ashish Mahabal" width="400" height="400" />
+
 # Ashish Mahabal
 
 Deputy Director, Center for Data Driven Discovery, Caltech
