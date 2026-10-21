@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Build and preview.
 #   ./serve_local.sh            local build, served at http://localhost:8002/
-#   ./serve_local.sh caltech    built with BASEURL=/~aam, served at http://localhost:8002/~aam/
-#   ./serve_local.sh gh         built with BASEURL=/newweb2, served at http://localhost:8002/newweb2/
+#   ./serve_local.sh caltech    same build, served at http://localhost:8002/~aam/
+#   ./serve_local.sh gh         same build, served at http://localhost:8002/newweb2/
 set -euo pipefail
 
 MODE="${1:-local}"

@@ -14,11 +14,16 @@
   <meta property="og:image" content="$site_url$/images/am-icon-192.png" />
   <link rel="icon" type="image/png" href="$baseurl$/images/am-icon-192.png" />
   <link rel="apple-touch-icon" href="$baseurl$/images/am-icon-192.png" />
-  <link rel="stylesheet" href="$baseurl$/assets/style.css" />
+$if(is404)$
+  <!-- The 404 page is shown at any missing address, so relative links need a base:
+       the site root under /~aam/, /newweb2/ or /. -->
+  <script>var m=location.pathname.match(/^\/(~aam|newweb2)\//);document.write('<base href="'+(m?m[0]:'/')+'">');</script>
+$endif$
+  <link rel="stylesheet" href="$baseurl$/assets/style.css?v=$asset_v$" />
   <!-- Apply a saved light/dark choice before first paint, so there is no flash. -->
   <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
-  <script src="$baseurl$/assets/theme.js" defer></script>
-  <script src="$baseurl$/assets/list.js" defer></script>
+  <script src="$baseurl$/assets/theme.js?v=$asset_v$" defer></script>
+  <script src="$baseurl$/assets/list.js?v=$asset_v$" defer></script>
 </head>
 <body>
 <nav>

@@ -1,18 +1,13 @@
 #!/usr/bin/env bash
 # Render _gen/*.md (written by scripts/generate.py) into site/ with pandoc.
 #
-# BASEURL is the path prefix the site is served under:
-#   ""        local preview (python3 -m http.server from site/)
-#   /~aam     Caltech
-#   /newweb2  GitHub Pages
+# Internal links are written relative to each page ("../research/"), so one build
+# works at any path: local preview (/), Caltech (/~aam/), GitHub Pages (/newweb2/)
+# and ashishmahabal.net (/). The 404 page is the exception: the server shows it at
+# whatever address was missing, so it finds its base path in the browser instead.
 # SITE_DIR sets the output folder (default site/).
 # CANONICAL_URL overrides the canonical/og:url base (default: the Caltech ~aam URL).
 set -euo pipefail
-
-BASEURL_META="${BASEURL:-}"
-BASEURL_META="/${BASEURL_META#/}"
-BASEURL_META="${BASEURL_META%/}"
-if [ "$BASEURL_META" = "/" ]; then BASEURL_META=""; fi
 
 # The Caltech copy is the official one: every build (GitHub Pages included) names
 # it as canonical, so search engines index ~aam and treat the other copy as a mirror.
@@ -24,6 +19,8 @@ SITE="${SITE_DIR:-$ROOT/site}"
 GEN="$ROOT/_gen"
 TEMPLATE="$ROOT/assets/template.html"
 FILTER="$ROOT/scripts/baseurl.lua"
+# Added to the CSS/JS URLs so browsers and caches fetch them again after a change.
+ASSET_V="$(cat "$ROOT"/assets/*.css "$ROOT"/assets/*.js | cksum | cut -d' ' -f1)"
 
 [ -d "$GEN" ] || { echo "Missing _gen/: run python3 scripts/generate.py first"; exit 1; }
 
@@ -37,20 +34,26 @@ rm -f "$SITE/assets/template.html"
 # (the old Hugo site used the same style). Nested pages (personal/...) work the same.
 render_one() {
   local md="$1" name="$2"
-  local out rel section
+  local out rel section root is404=""
   case "$name" in
     index)   out="$SITE/index.html"; rel="" ;;
-    404)     out="$SITE/404.html";   rel="404.html" ;;
+    404)     out="$SITE/404.html";   rel="404.html"; is404=1 ;;
     */index) out="$SITE/$name.html"; rel="${name%index}" ;;
     *)       out="$SITE/$name/index.html"; rel="$name/" ;;
   esac
   section="${name%%/*}"
+  # Path from this page back to the site root: "." for the home page, ".." for
+  # research/, "../.." for personal/fun/, ... (404.html sits at the root).
+  root="$(echo "${rel%404.html}" | sed -e 's#[^/]*/#../#g' -e 's#/$##')"
+  root="${root:-.}"
   mkdir -p "$(dirname "$out")"
   pandoc "$md" \
     --standalone \
     --template="$TEMPLATE" \
     --lua-filter="$FILTER" \
-    -M baseurl="$BASEURL_META" \
+    -M baseurl="$root" \
+    -M asset_v="$ASSET_V" \
+    ${is404:+-M is404=1} \
     -M og_url="$CANONICAL/$rel" \
     -M site_url="$CANONICAL" \
     -M year="$(date +%Y)" \
@@ -66,9 +69,9 @@ done < <(find "$GEN" -name '*.md' -print0)
 # Files served as they are (images, MIDI, PDFs of the personal pages).
 [ -d "$ROOT/static" ] && cp -R "$ROOT/static/." "$SITE/"
 
-# Apache (the Caltech server): send every missing page under the base path to our
-# 404 page, which forwards old addresses to the nearest new page. Other hosts
-# ignore this file and use 404.html directly.
-echo "ErrorDocument 404 $BASEURL_META/404.html" > "$SITE/.htaccess"
+# Apache (the Caltech server, the only host that reads this file): send every
+# missing page under /~aam to our 404 page, which forwards old addresses to the
+# nearest new page. Other hosts ignore this file and use 404.html directly.
+echo "ErrorDocument 404 /~aam/404.html" > "$SITE/.htaccess"
 
 echo "Built HTML into: $SITE"
